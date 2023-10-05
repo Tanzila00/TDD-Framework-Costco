@@ -2,8 +2,6 @@ package utils;
 
 import java.io.IOException;
 import java.util.Properties;
-
-import constants.IBrowserConstant;
 import constants.KeyConfig;
 
 public class ReadConfig {// This is the method to read Key values !!
