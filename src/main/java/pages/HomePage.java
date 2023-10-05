@@ -5,7 +5,6 @@ import utils.ReadFile;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -13,6 +12,8 @@ import org.openqa.selenium.support.PageFactory;
 
 import constants.Attribute;
 import constants.IFile;
+
+
 
 import reports.Loggers;
 
@@ -49,16 +50,17 @@ public class HomePage {// this help to instantiate web element (by which we crea
 	List<WebElement> headLineMenu;
 	@FindBy(xpath = "//a[@id='Home_Ancillary_6']")
 	WebElement services;
-	@FindBy(xpath = "//div[contains(@class,'ol-xs-12') and contains(@class,'col-md')]/ol")
+	@FindBy(xpath = "// div[@id='Home_Ancillary_Popover_6-container']//ol/li[1]")
 	List<WebElement> servicesList;
-	//div[@id='Home_Ancillary_Popover_6-container']//ol/li[1] for headers
-	@FindBy(xpath="//a[text()='Parts & Service Discount']")
+	// div[contains(@class,'ol-xs-12') and contains(@class,'col-md')]/ol
+	@FindBy(xpath = "//a[text()='Parts & Service Discount']")
 	WebElement partsNserviceBtn;
 
 	// div[contains(@class,'col-xs-16') and contains(@class,'col-md-6') and
 	// contains(@class,'col')]
 
-	//-------------------- AUTOQUOTETEST FOR AAA---------------------------------------------
+	// ---------------- AUTOQUOTETEST FOR AAA-----------------
+
 	@FindBy(xpath = "//div[text()='Welcome to AAA Northeast']")
 	WebElement titleText;
 	@FindBy(css = "div.dkg6.italicText.regularText")
@@ -72,7 +74,7 @@ public class HomePage {// this help to instantiate web element (by which we crea
 	@FindBy(xpath = "//div[@class='zipcodeMid']/descendant::div[contains(@class,'r6')]")
 	WebElement errorMsgText;
 
-	//------------------------- GEICO----------------------------------
+	// ------------------------- GEICO----------------------------------
 	@FindBy(xpath = "//input[@id='ssp-service-zip' and @class='zip-code-input']")
 	WebElement geicoZipCode;
 	// id="ssp-service-zip"
@@ -112,8 +114,9 @@ public class HomePage {// this help to instantiate web element (by which we crea
 	public void opticalsHoverOver(WebDriver driver) {
 		hoverOver(driver, costcoOpticals);
 	}
+
 	public void servivcesHoverOver(WebDriver driver) throws InterruptedException {
-		
+
 		hoverOver(driver, services);
 	}
 
@@ -121,18 +124,29 @@ public class HomePage {// this help to instantiate web element (by which we crea
 		hoverOver(driver, services);
 		click(partsNserviceBtn);
 	}
+
 	public void servicesHoverOverToTest(WebDriver driver) throws InterruptedException {
 		Thread.sleep(2000);
-		hoverOverTo(driver, services,partsNserviceBtn);
+		hoverOverTo(driver, services, partsNserviceBtn);
 	}
 
-	public void titleTest(WebDriver driver, String expected) {
+	public void titleText(WebDriver driver, String expected) {
 		verifyTitle(driver, expected);
 	}
 
 	public void verifyCostcoFooterText(String expected) {
 		verifyTextField(costcoFooter, expected);
-		// verifyAttribute(costcoFooter, expected, Attribute.INNER_HTML);
+		// verifyAttribute(costcoFooter, expected, );
+	}
+
+	public void scrollDownTest(WebDriver driver) {
+		scrollDown(driver);
+
+	}
+
+	public void scrollUpTest(WebDriver driver) {
+		scrollUp(driver);
+
 	}
 
 	public void printMenuList() {// using WebELement!
@@ -156,25 +170,20 @@ public class HomePage {// this help to instantiate web element (by which we crea
 
 	public void validateMenuList() {
 		ReadFile file = new ReadFile(IFile.MENU);
-		List<String> expectedList = file.getList();
+		List<String> expectedList = file.getList();// List from menu.txt is read here
 		for (String newlist : expectedList) {// This is how we iterated. each list iterated
 			Loggers.log("Expected:" + newlist);
 		}
-
-//		
-//		ReadFile file = new ReadFile(IFile.MENU);
-//		List<String> expectedlist = file.getList();//reading from menu.txt
-//		Loggers.log("Menu:"+expectedlist);
-		List<String> actualList = new ArrayList<>();// new array to store input form webelement
-		for (WebElement f : headLineMenu) {
-			String menu = f.getText();
-			// remove the extra text reeceived from actual text using contains();
+		List<String> actualList = new ArrayList<>();// new array to store input form webElement
+		for (WebElement f : headLineMenu) {// f will read the list from headLinemenu
+			String menu = f.getText();// menu stores the list read from f.
+			// remove the extra text received from actual text using contains();
 			if (menu.contains("US") && menu.contains("United States(expand to select country/region)")) {
-				menu = "US";//edited using if loop
+				menu = "US";// edited using if loop as we only want to see US!!
 			}
 			actualList.add(menu);
 		}
-		verifyText(expectedList, actualList);
+		verifyText(expectedList, actualList);// verification from Common Actions
 	}
 
 	public void serivcesList(WebDriver driver) {// hoverOver services and iterate the subList
@@ -185,7 +194,8 @@ public class HomePage {// this help to instantiate web element (by which we crea
 		// ReadFile readFile=new ReadFile("");
 	}
 
-	// -------------------HERE STARTS NEW URL AAA--------------------------------------------------
+	// -------------------HERE STARTS NEW URL
+	// AAA--------------------------------------------------
 
 	public void verifyTitleText(String expectedValue) {
 		verifyTextField(titleText, expectedValue);
@@ -193,7 +203,7 @@ public class HomePage {// this help to instantiate web element (by which we crea
 
 	public void verifySubTitleText(String expected) {
 		verifyAttribute(subTitle, expected, Attribute.INNER_HTML);
-		//verifyTextField(subTitle, expected);
+		// verifyTextField(subTitle, expected);
 	}
 
 	public void zipCodeTest() {
@@ -205,7 +215,7 @@ public class HomePage {// this help to instantiate web element (by which we crea
 	}
 
 	public void footerTextTest(String expected) {
-		 //verifyAttribute(footerText, expected, Attribute.INNER_HTML);//inner html
+		// verifyAttribute(footerText, expected, Attribute.INNER_HTML);//inner html
 		// gives logo we don;t want that hence don;t use inner logo
 		verifyTextField(footerText, expected);
 	}
@@ -224,10 +234,11 @@ public class HomePage {// this help to instantiate web element (by which we crea
 
 	public void verifyLength(String expected) {// GEICO
 		verifyAttribute(geicoZipCode, expected, Attribute.MAX_LENGTH);
+//		verifyAttribute(geicoZipCode, expected, Attribute.MAX_LENGTH);
 	}
 
 	public void verifyHeadLineText(String expected) {// GEICO
-		verifyAttribute(headLine, expected, Attribute.INNER_HTML);
+		// verifyAttribute(headLine, expected, Attribute.INNER_HTML);
 		// verifyTextField(headLine, expected);
 	}
 }

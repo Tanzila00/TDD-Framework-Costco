@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite name="Suite">
-<parameter name="browser" value="chrome"/>
-  <test thread-count="5" name="Test">
-	  <parameter name="title"     value="Welcome to AAA Northeast"/>  
-	  <parameter name="zip1" value="113ac"/>
-	  <parameter name="zip2" value="11355"/>
-    <classes>
-      <class name="quote.auto.AutoQuoteParameterized"/>
-    </classes>
-  </test> <!-- Test -->
-</suite> <!-- Suite -->
+	<parameter name="browser" value="chrome" />
+	<test thread-count="5" name="Test">
+		<parameter name="title" value="Welcome to AAA Northeast" />
+		<parameter name="zip1" value="113ac" />
+		<parameter name="zip2" value="11355" />
+		<classes>
+			<class name="quote.auto.AutoQuoteParameterized" />
+		</classes>
+	</test> <!--
+	Test -->
+</suite> <!--
+Suite -->
 

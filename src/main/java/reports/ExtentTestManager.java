@@ -6,14 +6,14 @@ import java.util.HashMap;
 
 public class ExtentTestManager {
 	static HashMap<Long, ExtentTest> tests = new HashMap<>();
-	
-	public static ExtentTest createTest(ExtentReports report, String testName){
+
+	public static ExtentTest createTest(ExtentReports report, String testName) {
 		ExtentTest test = report.createTest(testName);
 		tests.put(Thread.currentThread().getId(), test);
 		return test;
 	}
-	
-	public static ExtentTest getTest(){
+
+	public static ExtentTest getTest() {
 		return tests.get(Thread.currentThread().getId());
 	}
 }

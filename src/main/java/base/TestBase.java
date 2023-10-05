@@ -8,6 +8,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.ITestResult;
+import org.testng.TestNG;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
@@ -37,7 +38,7 @@ public class TestBase {
 	protected HomePage homePage;
 	protected Select select;
 	protected JavascriptExecutor jsExecutor;
-	protected ReadFile readFile;
+	ReadFile readFile;
 	protected ExtentReports extentReports;
 	protected ExtentTest extentTest;
 
@@ -51,13 +52,22 @@ public class TestBase {
 		config = new ReadConfig();// initializing 01
 
 	}
+	
+	
+	
+	
+
+	
 
 //BROWSER is constant because we imported the static IBrowserContant interface values here.So now we can use those keyword
-	@Parameters(BROWSER)
+	@Parameters(BROWSER) // interface browser is setup here
 	@BeforeMethod
-	public void setUpDriver(@Optional(EDGE) String browserName) {// if param(BROSWER) not work optional will work as
-																	// default
+	public void setUpDriver( @Optional(EDGE)String browserName) {// if param(BROSWER) not work optional will work as
+		// when we are calling we can;t call only with the declaration of STRING
+		// BROWSERNAME, we have to invoke it with @Optional(EDGE)--NEEDEDDDD
+		// default
 		driver = initiliazingBrowser(browserName);// initializing 02
+
 		driver.manage().deleteAllCookies();
 		driver.manage().window().maximize();
 		int pageloadwait = Integer.parseInt(config.getValue(KeyConfig.pageloadwait));// conversion because it was in
@@ -70,7 +80,7 @@ public class TestBase {
 		initObjectClass();// to use the homePage we need to call the method created
 	}
 
-	public WebDriver initiliazingBrowser(String browserName) {
+	public WebDriver initiliazingBrowser(String browserName) {// return type method
 		switch (browserName) {
 		case CHROME:
 			WebDriverManager.chromedriver().setup();// version not defined so latest
@@ -86,6 +96,7 @@ public class TestBase {
 			WebDriverManager.safaridriver().setup();// version not defined so latest
 			return new SafariDriver();
 		default:
+			System.out.println("default");
 			WebDriverManager.chromedriver().setup();
 			return new ChromeDriver();
 		}
@@ -111,8 +122,7 @@ public class TestBase {
 		if (result.getStatus() == ITestResult.SUCCESS) {
 			extentTest.log(Status.PASS, "Test PASSED");
 		} else if (result.getStatus() == ITestResult.FAILURE) {
-			extentTest.addScreenCaptureFromPath(CommonActions.getScreenShot(method.getName(),
-			 driver));
+			extentTest.addScreenCaptureFromPath(CommonActions.getScreenShot(method.getName(), driver));
 			extentTest.log(Status.FAIL, "Test FAILED");
 		} else if (result.getStatus() == ITestResult.SKIP) {
 			extentTest.log(Status.SKIP, "Test SKIPPED");
@@ -123,7 +133,7 @@ public class TestBase {
 	public void tearUp() {
 		driver.quit();
 	}
-	
+
 	@AfterSuite
 	public void publishReport() {
 		extentReports.flush();

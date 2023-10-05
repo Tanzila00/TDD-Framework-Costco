@@ -5,9 +5,11 @@ import com.google.common.io.Files;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.util.Date;
 
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
+//import java.util.NoSuchElementException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebDriver;
@@ -16,8 +18,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
-import constants.Attribute.*;
-import com.github.dockerjava.api.model.Driver;
 
 import constants.Attribute;
 import reports.Loggers;
@@ -54,10 +54,11 @@ public class CommonActions {
 	}
 
 	public static void verifyAttribute(WebElement element, String expected, Attribute attribute) {
+
 		String actual = element.getAttribute(attribute.toString());
-		// element.getAttribute(attribute.toString());
 		// getAttributeValue(element,attribute);
-		Loggers.log(element + " ---> Actual text : " + actual + ". Expected text : " + expected);
+		// Loggers.log(element + " ---> Actual text : " + actual + ". Expected text : "
+		// + expected);
 		Assert.assertEquals(actual, expected);
 	}
 
@@ -130,6 +131,22 @@ public class CommonActions {
 		}
 	}
 
+	public static void scrollDown(WebDriver driver) {
+		Actions actions = new Actions(driver);
+		actions.keyDown(Keys.CONTROL).sendKeys(Keys.END).perform();
+	}
+
+	public static void scrollUp(WebDriver driver) {
+		Actions actions = new Actions(driver);
+		actions.keyDown(Keys.CONTROL).sendKeys(Keys.HOME).perform();
+	}
+
+	public static void scroll_Js(WebElement element, WebDriver driver) {
+		JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+		jsExecutor.executeScript("arguments[0].scrollIntoView(true);", element);
+
+	}
+
 	public static String getScreenShot(String testName, WebDriver driver) {
 		TakesScreenshot ss = (TakesScreenshot) driver;// cast the driver -designed in this way!!
 		String path = System.getProperty("user.dir") + "/test-output/screenShots";// here user-dir will take you to
@@ -139,13 +156,13 @@ public class CommonActions {
 		if (!folder.exists()) {// if folder doesn't exist
 			folder.mkdirs();// in built mkdirs it will create the folder even i dont create the ss folder!!
 		}
-		
+
 		Date date = new Date();
 		SimpleDateFormat format = new SimpleDateFormat("MM_dd_yyyy hh.mm.ss");
 		String dateString = format.format(date);
-		
+
 		File targetFile = new File(path + "/error_" + testName + "_" + dateString + ".png");// where i want to save
-																								// my ss!
+																							// my ss!
 		try {
 			File srcFile = ss.getScreenshotAs(OutputType.FILE);// OutputType.-in built ot get output in the form of
 																// FILE!!

@@ -15,8 +15,8 @@ public class ReadFile {
 
 	public ReadFile(String fileName) {// param constructor used because there are multiple files using string we
 										// differentiate fileName
-		this.fileName = fileName;// reading this fileName
-		//reader = readerFile();
+		//this.fileName = fileName;// reading this fileName
+	
 		readerFile();
 	}
 
@@ -31,7 +31,7 @@ public class ReadFile {
 
 	private BufferedReader readerFile() {
 		try {
-			reader = new BufferedReader(new FileReader(getFileName()));
+			reader = new BufferedReader(new FileReader("menu.txt"));
 			generateList(reader);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -75,7 +75,7 @@ public class ReadFile {
 		System.out.println(list.size());
 	}
 
-	public void closeResource() {//to close the 
+	public void closeResource() {// to close the
 		try {
 			reader.close();
 		} catch (IOException e) {
